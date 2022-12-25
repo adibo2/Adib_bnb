@@ -1,3 +1,84 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+:root {
+    --red: #e0565b;
+    --yellow: #ffffd6;
+    --dark: #2e2e48;
+    --brown: #3f3f1a;
+    --light: #fafafc;
+    --gray: #efeff5;
+    --white: #fff;
+    --sidePadding: 3rem;
+    --maxWidth: 40%;
+    --containerWidth: 1200px;
+  }
+  .default-button {
+    @apply rounded bg-gray-100 py-2  px-4 text-black shadow outline-none hover:bg-gray-200  active:bg-gray-300;
+  }
+@layer components{
+    .button{
+        @apply px-4 py-2 border 
+        rounded-full cursor-pointer hover:shadow-lg active:scale-95 
+        active:bg-gray-100 transition select-none 
+        transform duration-100 ease-out;
+    }
+    .navChange{
+        @apply bg-gray-100 text-gray-900;
+    }
+}
+.mapboxgl-marker {
+  max-width: 320px;
+  max-height: 250px;
+
+  cursor: auto;
+}
+.mapboxgl-marker-anchor-center{
+  max-width: 320px;
+  max-height: 250px;
+
+}
+.mapboxgl-popup-anchor-top .mapboxgl-popup-tip,
+.mapboxgl-popup-anchor-top-left .mapboxgl-popup-tip,
+.mapboxgl-popup-anchor-top-right .mapboxgl-popup-tip {
+  border-bottom-color: #1f2937 !important;
+  z-index: -1;
+}
+
+.mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip,
+.mapboxgl-popup-anchor-bottom-left .mapboxgl-popup-tip,
+.mapboxgl-popup-anchor-bottom-right .mapboxgl-popup-tip {
+  border-top-color: #1f2937 !important;
+  z-index: -1;
+}
+
+.mapboxgl-popup-anchor-left .mapboxgl-popup-tip {
+  border-right-color: #1f2937 !important;
+  z-index: -1;
+
+}
+
+.mapboxgl-popup-anchor-right .mapboxgl-popup-tip {
+  border-left-color: #1f2937 !important;
+  z-index: -1;
+
+}
+
+.mapboxgl-popup-content {
+  padding: 0 !important;
+  border-radius: 1rem !important;
+  overflow: hidden;
+
+  
+
+}
+.mapboxgl-popup-content button {
+  --tw-bg-opacity: 1;
+  background-color: rgba(248, 113, 113, var(--tw-bg-opacity));
+  color: white;
+  border-radius: 0 8px;
+  position: absolute;
+  width: 30px;
+
+  z-index: 20;
+}
