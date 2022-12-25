@@ -3,14 +3,13 @@ import { useState } from 'react';
 import Image from 'next/image'
 import { HeartIcon } from "@heroicons/react/outline";
 import { StarIcon } from "@heroicons/react/solid";
-import Fade from 'react-reveal/Fade';
+
 
 const InfoCard = ({img,location,title,amenities,star,price,total,bedrooms,beds}) => {
   const [fillHeart, setFillHeart] = useState("");
 
   return (
 <div className="my-6 ">
-<Fade left>
         <div
           style={{ transition: "all .5s ease" }}
           className="flex flex-col relative p-3 cursor-pointer overflow-auto bg-white shadow-md hover:shadow-lg pr-3transition transform duration-300 ease-out hover:scale-[1.02] group rounded-2xl"
@@ -77,7 +76,6 @@ const InfoCard = ({img,location,title,amenities,star,price,total,bedrooms,beds})
             </div>
           </div>
         </div>
-        </Fade>
       </div>
   )
 }
