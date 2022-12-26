@@ -61,9 +61,6 @@ const Search = ({ Villes, countLocations, pages }) => {
     if(beds) query.beds = beds;
     if(bedrooms) query.bedrooms = bedrooms
     if(filterResultsBeds) query.page=1
-
-    
-
     router.push({
       pathname: router.pathname,
       query: query,
