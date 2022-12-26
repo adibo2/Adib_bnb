@@ -90,7 +90,7 @@ function Carte({ searchResults,filterResults }) {
                 <div className="absolute font-semibold max-w-[200px] text-white z-20 bottom-5 left-4">
                   <div>
                     <h3 className="">{result.name}</h3>
-                    <h4 className="text-xl">{result.price}</h4>
+                    <h4 className="text-xl">${result.price}</h4>
                   </div>
                   <p className="flex items-center">
                     <StarIcon className="h-6 text-red-400" />

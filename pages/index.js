@@ -21,16 +21,17 @@ const Home = ({exploreData,houseDta,discover}) => {
       </Head>
       {/* <Header></Header> */}
       <Banner></Banner>
-      <main className='max-w-7xl mx-auto px-8 sm:px-16 bg-[#1e1e38]'>
+      <main className='max-w-7xl mx-auto px-4 sm:px-16 bg-[#1e1e38]'>
         <section className='pt-6'>
           <h2 className='text-4xl pb-5 text-white font-semibold font-sans '>Explore nearby</h2>
           {/* Pull ddddatttttaa from server API ENDPOINT */}
-          <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
+          <div className='grid grid-cols-1 gap-6 m-5 overflow-scroll  sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
           {exploreData?.map((location)=>(
           <Card
           key={location.id}
           name={location.location}
           img={location.img}
+          avaible={location.avaible}
           distance={location.distance}
           ></Card>
           ))}
@@ -43,7 +44,7 @@ const Home = ({exploreData,houseDta,discover}) => {
           scrollbar-hide p-3 -ml-3'>
 
           {houseDta?.map((item,index)=>(
-           <MediumCard key={index} title={item.title} img={item.img}>
+           <MediumCard key={index} title={item.title} img={item.img} >
 
            </MediumCard>
           ))}

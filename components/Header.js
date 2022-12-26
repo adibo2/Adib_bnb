@@ -6,6 +6,7 @@ import {
   MenuIcon,
   UserCircleIcon,
   UsersIcon,
+  XIcon
 } from "@heroicons/react/solid";
 import styled from "styled-components";
 import { Search } from "react-feather";
@@ -27,8 +28,12 @@ function Header({ placeholder }) {
   const [checkInDate, setCheckInDate] = useState(new Date());
   const [checkOutDate, setCheckOutDate] = useState(new Date());
   const [noOfGuests, setNoOfGuests] = useState(1);
+  const [close,Setclose]=useState(false)
   const [inputfocus, Setinputfocus] = useState(false);
   const router = useRouter();
+
+  //search when phone screen
+  const [statusSearch,SetSearchStatus]=useState(false)
 
   const { data: session } = useSession();
 
@@ -39,9 +44,11 @@ function Header({ placeholder }) {
   const secondaryLocation = useRef(null);
   const logo = useRef();
   const head = useRef();
+  console.log(router.query);
 
   //responsive
-  const isSmallScreen = useMediaQuery("(max-width: 36rem)");
+  const isSmallScreen = useMediaQuery("(max-width: 40rem)");
+
 
   const navbar = useRef();
   //Navbar when scrolling
@@ -74,6 +81,7 @@ function Header({ placeholder }) {
   }, []);
 
   const openDatePicker = () => {
+    Setclose(true)
     Setinputfocus(true);
     document.body.style.overflow = "hidden";
     setTimeout(() => {
@@ -85,6 +93,8 @@ function Header({ placeholder }) {
 
   const closeDatePicker = () => {
     setSearchInput("");
+    Setclose(false)
+
     Setinputfocus(false);
 
     setNoOfGuests(0);
@@ -92,6 +102,7 @@ function Header({ placeholder }) {
     setCheckOutDate(new Date());
     document.body.style.overflow = "initial";
   };
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -139,12 +150,12 @@ function Header({ placeholder }) {
         inputfocus ? "inputFocus" : null,
       ]}
     >
-      <div className="grid grid-cols-2 max-w-[1400px] sm:max-w-[1350px]">
+      <div className="grid  md:grid-cols-2 grid-cols-1 max-w-[1400px] sm:max-w-[1350px]">
         {/* left */}
         <div
           ref={logo}
           onClick={() => Router.push("/")}
-          className="relative flex items-center h-12 text-xl w-20 cursor-pointer my-ayto"
+          className={statusSearch ? "hidden" :"relative flex row-start-1 z-50 row-end-2 col-start-1 col-end-2 items-center h-12 text-xl w-20 cursor-pointer my-ayto"}
         >
           <Image
             // src="https://links.papareact.com/qd3"
@@ -156,21 +167,39 @@ function Header({ placeholder }) {
         </div>
 
         {/* Middle - Search */}
-        <form className={"search"}>
+        <form className={`search "row-start-1 row-end-2 col-start-1 col-end-3"}`}>
+          <div className={!statusSearch ? "hidden flex-grow md:flex items-center md:shadow-sm" : "flex w-full items-center shadow-sm flex-grow"}>
           <input
             value={searchInput}
             ref={primelocation}
             type="text"
+            autoComplete="location"
             placeholder={placeholder || "where are you going?"}
-            className={`pl-5 bg-inherit border-none outline-none  flex-grow text-sm ${
+            className={`pl-5 bg-inherit border-none outline-none flex-grow sm:text-xl text-[.9rem] ${
               !color
-                ? "text-white placeholder-gray-400"
+                ? "text-white placeholder-white"
                 : "text-gray-600 placeholder-gray-400 "
             } `}
             onChange={(e) => setSearchInput(e.target.value)}
             onFocus={openDatePicker}
             // onFocus={() => Setinputfocus(true)}
           />
+          <button
+            type="submit"
+            disabled={
+              inputfocus &&
+              !(searchInput && checkInDate && checkOutDate && noOfGuests)
+            }
+            aria-label="search places"
+            onClick={handleSubmit}
+          >
+            <Search className="sm:text-sm sm:w-6 text-xs" />
+            <span className={`ml-2 ${router.query.location ? "hidden" : ""} ${color ? "hidden" : ""}`}>Search</span>
+          </button>
+
+          </div>
+
+
           {inputfocus && (
             <div className="overlay">
               <div className="field">
@@ -183,10 +212,13 @@ function Header({ placeholder }) {
                 <input
                   className="bg-none border-none bg-[#1e1e38] text-xl block whitespace-nowrap outline-none overflow-hidden text-white text-ellipsis"
                   value={searchInput}
+                  id="location"            
+                  autoComplete="location"
                   ref={secondaryLocation}
                   onChange={(e) => setSearchInput(e.target.value)}
                   placeholder="Where are you going?"
                 />
+
               </div>
               <div className="field">
                 <label className="bg-none text-xl block whitespace-nowrap outline-none overflow-hidden text-white text-ellipsis">
@@ -217,18 +249,7 @@ function Header({ placeholder }) {
               </div>
             </div>
           )}
-          <button
-            type="submit"
-            disabled={
-              inputfocus &&
-              !(searchInput && checkInDate && checkOutDate && noOfGuests)
-            }
-            aria-label="search places"
-            onClick={handleSubmit}
-          >
-            <Search className=" mr-8" />
-            <span className=" ml-2">Search</span>
-          </button>
+          
           {/* text-gray-600 placeholder-gray-400 */}
         </form>
         {inputfocus && (
@@ -249,18 +270,22 @@ function Header({ placeholder }) {
           />
         )}
 
-        {/* right */}
+        {/****************  right ***********************/}
         <div
           ref={head}
           className="flex space-x-4 row-start-1 row-end-2 col-start-2 col-end-3 items-center justify-end text-white"
         >
+
+          {statusSearch ? <XIcon onClick={()=>SetSearchStatus(false)} className={`h-12 z-20 w-8 cursor-pointer ${close && "hidden"}`}></XIcon>
+          :
+          <>
           <p
-            onClick={() => signIn("google")}
+            onClick={() => signIn()}
             className="hidden md:inline cursor-pointer"
           >
             {session ? session?.user.name : "Sign In"}
           </p>
-          {/* {session.user.email} */}
+          <SearchIcon onClick={() => SetSearchStatus(true)} className="md:hidden h-6 cursor-pointer" />
           <GlobeAltIcon className="h-6" />
           <div className="flex items-center space-x-2 border-2 p-2 rounded-full bg-white text-gray-600">
             <MenuIcon
@@ -276,11 +301,14 @@ function Header({ placeholder }) {
               />
             ) : (
               <UserCircleIcon
-                onClick={signOut}
+              onClick={() => signOut("google")}
                 className="h-6 cursor-pointer"
               />
             )}
           </div>
+          </>
+          
+        }
         </div>
       </div>
     </HeaderSection>
@@ -303,12 +331,30 @@ const HeaderSection = styled.header`
 
     
   }
+  search_flex{
+    position: absolute;
+    transform: translate(-50%, 150%);
+    left: 50%;
+    top: -1rem;
+    background: #1e1e38;;
+    padding: 0.5rem;
+    border-radius: 99px;
+    display: flex;
+    align-items: center;
+    max-width: 720px;
+    margin: 1.5rem 0;
+    width: 60vw;
+    box-shadow: 0 1rem 3rem -1rem #1e1e38;
+    transition: all 0.2s;
+    transform-origin: center;
+
+  }
 
   .overlay {
     position: absolute;
     width: 100%;
     height: 100%;
-    background: #1e1e38;;
+    background: #1e1e38;
     border-radius: 99px;
     display: flex;
     align-items: center;
@@ -364,14 +410,14 @@ const HeaderSection = styled.header`
         content: "";
         width: 2px;
         height: 2rem;
-        background: #002;
+        // background: #002;
         border-radius: 2px;
         left: 0;
         transition: transform 0.2s;
       }
       &:hover,
       &:focus-within {
-        background: #002;
+        // background: #002;
       }
 
       &:last-of-type {
@@ -472,25 +518,32 @@ const HeaderSection = styled.header`
     }
   }
 
+
   form {
     position: absolute;
     transform: translate(-50%, 150%);
     left: 50%;
     top: -1rem;
-    background: #1e1e38;;
+    background: #1e1e38;
     padding: 0.5rem;
     border-radius: 99px;
     display: flex;
     align-items: center;
+    background-color:transparent;
+
     max-width: 720px;
     margin: 1.5rem 0;
     width: 60vw;
     box-shadow: 0 1rem 3rem -1rem #1e1e38;
     transition: all 0.2s;
     transform-origin: center;
-    @media (max-width: 36rem) {
-      grid-column:1 / 3;
-      max-width: 500px;
+    @media (max-width: 53rem) {
+      box-shadow: 0 0rem 0rem 0rem #1e1e38;
+
+    
+      max-width: 520px;
+      // transform:scale(.83)
+      //  display:none;
 
       
     }
@@ -513,14 +566,15 @@ const HeaderSection = styled.header`
         opacity: 0.6;
       }
     }
-    & > button {
+     button {
       background: #e0565b;
       color: #fafafc;
       border: none;
-      padding: 0.5rem calc(1.75rem / 2);
+      padding: 0.5rem calc(1.5rem / 1.7);
       height: 3rem;
       max-width: 300px;
       display: flex;
+      gap:.5rem;
       align-items: center;
       border-radius: 99px;
       font-weight: 700;
@@ -531,7 +585,7 @@ const HeaderSection = styled.header`
       }
 
       &:hover:not(:disabled) {
-        box-shadow: 0 0 0 2px var(--white), 0 0 0 4px #e0565b;
+        box-shadow: 0 0 0 2px #fff, 0 0 0 4px #e0565b;
       }
 
       &:disabled {
@@ -555,7 +609,7 @@ const HeaderSection = styled.header`
     -moz-appearance: textfield;
   }
 
-  @media (max-width: 36rem) {
+  @media (max-width: 56rem) {
     .profile,
     .logo,
     nav,
@@ -579,10 +633,10 @@ const HeaderSection = styled.header`
         padding: 0 1rem;
         font-size: 1rem;
       }
-      & > button {
-        width: 2.5rem;
-        height: 2.5rem;
-        padding: 0 0.6rem;
+      button {
+        // width: 2.5rem;
+        height: 2.2rem;
+        padding: 0 0.4rem;
       }
       & > button svg {
         height: 1rem;
@@ -624,20 +678,22 @@ const HeaderSection = styled.header`
       box-shadow: 0 0 0 2px #002;
       transform: translate(-55%, 0.125rem) scale(0.83);
       width: 575px;
-      & > button {
+       button {
         max-width: 3rem;
       }
       & > button span {
       }
     }
-    @media (max-width: 36rem) {
+    @media (max-width: 57rem) {
       padding-top: 1rem;
       padding-bottom: 1rem;
 
       form {
         padding: 0;
         box-shadow: none;
-        background: #002;
+        box-shadow: 0 0 0 0px #002;
+
+        // background: #002;
       }
     }
 
@@ -661,18 +717,18 @@ const HeaderSection = styled.header`
       form {
         padding: 0;
         box-shadow: none;
-        background: #002;
+        // background: #002;
       }
     }
 
-    @media (min-width: 36rem) and (max-width: 62.5rem) {
+    @media (min-width: 36rem) and (max-width: 52.5rem) {
       .profile {
         pointer-events: none;
       }
       form {
         left: auto;
         right: 0;
-        transform: translate(0, 0.125rem) scale(0.83);
+        transform: scale(0.83);
         width: 50%;
       }
     }

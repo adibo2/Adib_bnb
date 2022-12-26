@@ -2,9 +2,20 @@ import React from 'react'
 import Image from 'next/image'
 import bg from "/public/img/bg.jpg"
 import Header from './Header'
+import { gsap } from "gsap";
+import { useEffect,useRef } from 'react';
+
 
 const Banner = () => {
+  const pres=useRef();
+  useEffect(()=>{
+    const ctx=gsap.context(()=>{
+        gsap.from(pres.current,{stagger:0.7,y:150,opacity:0,transformOrigin:"center center",duration:0.7})          
+    })
+    return ()=>ctx.revert();
+},[])
   return (
+    
     <>
 
     <div className='relative h-[450px] sm:h-[550px]
@@ -14,7 +25,7 @@ const Banner = () => {
         layout="fill"
         objectFit='cover' />
 
-        <div className='absolute top-1/2 w-full pl-7 sm:pl-16 mr-auto'>
+        <div ref={pres} className='absolute top-1/2 w-full pl-7 sm:pl-16 mr-auto'>
             <p className=' text-2xl text-white sm:text-4xl'>Not sure where to go?</p>
             <p className='text-2xl text-white sm:text-4xl'>Perfect we got you.</p>
 

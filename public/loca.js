@@ -21,6 +21,7 @@ export const loca =
     img: manchester,
     location: "Manchester",
     distance: "$178/night avg",
+    avaible:"not available",
   },
   {
     img: paris,
