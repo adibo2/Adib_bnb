@@ -19,6 +19,7 @@ const Search = ({ Villes, countLocations, pages }) => {
   const [filterResultsPrice, setFilterResultsPrice] = useState("");
   const [filterResultsBeds, setFilterResultsbeds] = useState();
   const [filterResultsBedrooms, setFilterResultsbedrooms] = useState();
+  const [checkpage, setCheckPage] = useState(false)
   // const [filterLowhigh, setFilterLowhigh] = useState("");
   const { sort = "featured", page = 1 } = router.query;
 
@@ -31,6 +32,17 @@ const Search = ({ Villes, countLocations, pages }) => {
 
   const hotel = useRef();
   const map = useRef();
+  const bedInputRef=useRef()
+  // useEffect((e)=>{
+  //   if(event.target.value.length > 0)
+  //   {
+  //     setCheckPage(true)
+  //     console.log("checkpage"+checkpage);
+
+  //   }
+  // },[bedInputRef]);
+
+
   const {
     beds=parseInt(filterResultsBeds),
     bedrooms=parseInt(filterResultsBedrooms),
@@ -54,13 +66,15 @@ const Search = ({ Villes, countLocations, pages }) => {
 
     SetPlaceholder("filter by price");
   };
-  const filterSearch = ({ sort, page,beds,bedrooms }) => {
+
+  const filterSearch = ({ sort, page,beds,bedrooms,checkpage }) => {
     const { query } = router;
     if (sort) query.sort = sort;
     if (page) query.page = page;
     if(beds) query.beds = beds;
     if(bedrooms) query.bedrooms = bedrooms
-    if(filterResultsBeds) query.page=1
+    if(checkpage) query.page=1
+
     router.push({
       pathname: router.pathname,
       query: query,
@@ -72,10 +86,15 @@ const Search = ({ Villes, countLocations, pages }) => {
   const bedshandler = (e) => {
     setFilterResultsbeds(e.target.value)
     filterSearch({ beds: e.target.value });
+    filterSearch({ checkpage: true });
+
+   
   };
   const bedroosmhandler = (e) => {
     setFilterResultsbedrooms(e.target.value)
     filterSearch({ bedrooms: e.target.value });
+    filterSearch({ checkpage: true });
+
   };
 
   const pageHandler = (page) => {
@@ -187,11 +206,13 @@ const Search = ({ Villes, countLocations, pages }) => {
               {bedInput && (
                 <>
                   <input
+                  ref={bedInputRef}
                     value={filterResultsBeds}
                     placeholder={placeholder}
                     type="text"
                     className="flex-grow outline-none text-gray-500 ml-4"
-                    onChange={(e)=>bedshandler(e)}
+                    onChange={bedshandler}
+                    // onBlur={()=>setCheckPage(true)}
                   ></input>
                   <SearchIcon className="font-semibold text-slate-700 h-10 mr-5 cursor-pointer" />
                 </>
