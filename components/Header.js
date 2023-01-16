@@ -280,7 +280,7 @@ function Header({ placeholder }) {
           :
           <>
           <p
-            onClick={() => signIn()}
+            onClick={() => signIn('google')}
             className="hidden md:inline cursor-pointer"
           >
             {session ? session?.user.name : "Sign In"}
