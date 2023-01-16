@@ -8,7 +8,7 @@ export default NextAuth({
   adapter: MongoDBAdapter(clientPromise),
   providers: [
     GoogleProvider({
-      clientId: "701235870925-t7j8fje2go2brneuehtneeko61p35g5t.apps.googleusercontent.com ",
+      clientId: "701235870925-t7j8fje2go2brneuehtneeko61p35g5t.apps.googleusercontent.com",
       clientSecret: "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 ",
     }),
   ],
