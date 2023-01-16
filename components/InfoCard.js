@@ -36,7 +36,7 @@ const InfoCard = ({
             layout="fill"
             objectFit="cover"
             style={{ transition: "all 3s ease" }}
-            className=" scale-[1.2] group-hover:scale-[1]  rounded-2xl transition transform duration-300 ease-in"
+            className="scale-[1.2]  group-hover:scale-[1]  rounded-2xl transition transform duration-300 ease-in"
           />
           <HeartIcon
             onClick={() =>

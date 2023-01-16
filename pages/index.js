@@ -21,6 +21,7 @@ const Home = ({exploreData,houseDta,discover}) => {
       </Head>
       {/* <Header></Header> */}
       <Banner></Banner>
+
       <main className='max-w-7xl mx-auto px-4 sm:px-16 bg-[#1e1e38]'>
         <section className='pt-10'>
           <h2 className='text-4xl mt-4 pb-5 text-white font-semibold font-sans '>Explore nearby</h2>

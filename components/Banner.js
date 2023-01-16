@@ -5,8 +5,8 @@ import Header from './Header'
 import { gsap } from "gsap";
 import { useEffect,useRef } from 'react';
 import { useLayoutEffect } from 'react';
-import { ParallaxBanner, ParallaxBannerLayer } from 'react-scroll-parallax';
 import { useState } from 'react';
+
 const Banner = () => {
 
   const [scrolling,setScrolling]=useState(false)
@@ -16,7 +16,7 @@ const Banner = () => {
   // const button=document.getElementById('button');
   useEffect(()=>{
     const scroll=()=>{
-      if(window.pageYOffset > 210){
+      if(window.pageYOffset > 250){
         setScrolling(true);
         console.log('lsdkmqkdlmqkdmql')
       }
@@ -41,10 +41,6 @@ const Banner = () => {
    
 
   return (
-    
-
-
-
 
     <div  className={`${scrolling  ? 'bg-[length:180%]' : 'bg-[length:150%]'} relative h-[450px]  sm:h-[580px]
     lg:h-[680px] xl:h-[730px] 2xl:h-[900px] `}>
@@ -63,10 +59,6 @@ const Banner = () => {
         </div>
 
     </div>
-    
-
-    
-    
   )
 }
 
